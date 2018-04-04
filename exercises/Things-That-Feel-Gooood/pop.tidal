@@ -1,0 +1,12 @@
+-- Feels like an electronig galloping.
+-- FUTURE COWBOY - March 4 2018
+d1 $ sound "bd sd:3"
+d2 $ sound "bass3:1"
+d3 $ sound "bass3:4*3"
+d4 $ sound "[bass3:1 bass3:4]"
+
+
+
+hush
+
+d5 $ sound "db"

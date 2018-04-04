@@ -1,0 +1,477 @@
+--Abril 3 al 6 de 2018
+--Bogotá, Colombia
+--Plataforma
+--Idartes
+--Live Coding con TidalCycles
+--impartido por Alexandra Cárdenas
+
+--Bienvenidos a TidalCycles!
+--Lenguaje para live coding escrito por Alex Mclean
+--tidalcycles.org
+--Para todo lo relacionado con live coding, vayan a toplap.org
+
+-- $ cambia el orden de ejecución y lo hace de derecha a izquierda
+
+--Evalúa la siguiente línea (Shift+Enter or Ctrl+Enter)
+d1 $ sound "bd"
+
+d2 $ sound "sn"
+
+--Para silenciar evalúa
+d2 silence
+
+hush
+
+--cps = ciclos por segundo//cambia el número para ver cómo afecta la velocidad de los ciclos
+
+cps 1
+
+-- ubica tu carpeta llamada Dirt-Samples
+
+--Estamos creando patrones con diferentes samples que están localizados en el folder de samples de SuperDirt. Ubiquen su folder. Pueden añadir sus propios samples ahí.
+
+d1 $ sound (samples "amencutup" (irand 32))
+
+
+d1 $ sound "bev:2"
+
+hush
+d2 $ degrade $ sound "[arpy:12, bass amencutup, ~ bd, hh hh hh]"
+d2 $ sound "[arpy:12, bass amencutup, ~ bd, hh hh hh]"
+d2 $ degrade $ sometimes (striate 8)$  sound "[arpy:12, bass amencutup, ~ bd, hh hh hh]"
+hush
+d3 $ brak $ sometimes (striate 8) $ sound "arpy:4"
+    # speed (choose [0.5, 1, 2, 4])
+
+
+---transformadores de patrones y transformadores de samples
+
+--palíndromo
+-
+
+d1 $ slow 2 $ sometimes (palindrome) $ sound "numbers numbers:1 numbers:2"
+     # speed (0.5)
+     # gain "0.8"
+
+hush
+
+hush
+
+--filtros formantes
+d1 $ slow 1 $ sound "[amencutup, bd]"
+    # n (irand 1)
+    # gain "1"
+    # vowel "p"
+    # speed "1"
+
+hush
+
+
+
+d1 silence
+
+    ---esto es un comentario
+
+
+hush
+
+
+--Podemos tener uno o más "streams" corriendo al tiempo así:
+
+d1 $ sound "sn*3 bd cp"
+    -- # vowel "i"
+
+d2 $ sound "~ ~ hh*2"
+
+d3 $ sound "~ sn*4"  --la tilde crea un silencio.
+
+d4 $ sound "~ cp"
+
+
+--También se puede silenciar cada stream individualmente:
+d1 silence
+
+hush
+
+--Se puede hacer que un stream suene solo:
+d2 $ sound "~ bd"
+
+d1 $ sound "newnotes"
+
+
+--Podemos elegir un sample en específico del folder:
+d1 $ sound "sn:4 sn:8 sn:10 sn:2"
+
+d1 silence
+
+--El cps por default es 1, es decir 60 bpm, lo podemos cambiar así:
+cps (1/1)
+
+cps 1
+
+hush
+
+--Todos los samples en un patrón son tocados en un ciclo. Mira cómo se distribuyen:
+
+d1 $ sound "bd sn hh cp bass"
+
+d1 $ sound "bd sn hh cp arpy drum"
+
+d1 $ sound "bd sn hh cp arpy drum bd arpy bass2 feel future"
+
+hush
+
+d1 $ sound "[bd, sd]" --Array = arreglo o lista
+
+d1 $ sound "bd amencutup"
+
+
+--Podemos anidar un patrón adentro de un paso del ciclo así:
+d1 $ sound "[numbers:1, ~ numbers:2, numbers:5 [numbers:6,~ ~ ~ diphone*2] numbers:4]" --Los paréntesis cuadrados agrupan.
+
+d1 $ sound " ~ ~ eguitar:3"
+
+d2 $ sound " ~ eguitar:2"
+
+hush
+
+
+cps 1
+
+d1 silence
+
+--Así podemos comenzar a crear complejidad desde la simplicidad:
+d1 $ sound "arpy arpy:1 arpy:3 arpy:4"
+
+d1 $ sound "[arpy arpy:1, arpy:3*4 arpy:8 arpy:7*3 arpy:4, arpy:5 arpy:6]"
+
+--También podemos usar comas para crear poliritmos:
+d1 $ sound "[hh hh, arpy arpy:1 arpy:2]"
+
+--y usar tantas capas como queramos:
+d1 $ sound "[hh, sn cp sn, arpy:4 arpy:2, ~ cp]"
+
+--Mezclando comas y paréntesis cuadrados:
+d1 $ sound "[hh, [sn*2] cp/2 notes*5, arpy:6 arpy:2, arpy [arpy:4 [arpy:1 arpy:2] arpy:3 arpy], odx, ~ cp]"
+
+hush
+
+--Los asteriscos se usan para multiplicar:
+d1  $ sound "hh*2 sn"
+    # gain "1"--para repetir el mismo paso las veces que queramos.
+
+hush
+
+--Podemos dividir también usando / --El sample suena la mitad de veces:
+d1 $ sound "bd cp/2"
+
+--Podemos multiplicar y dividir grupos también:
+d1 $ sound "[alphabet:2 numbers:1]/4 cp"
+
+--Y hasta patrones completos
+d1 $ sound "[[bd*4 sn:2] cp]*2"
+
+hush
+
+--FUNCIONES!!! :D
+--Acá empieza lo divertido
+
+-- Podemos tocar un patron en reversa con rev
+d1 $ slow 2 $  sometimes rev $ sound "alphabet alphabet:1 alphabet:2"
+
+d1 $ every 2 (rev) $ sound "alphabet alphabet:1 alphabet:2"
+
+d1 $ slow 2 $ sometimes palindrome $ sound "alphabet alphabet:1 alphabet:2"
+  # speed "1"
+
+d2 $ sound "bd"
+
+
+hush
+
+--density inverso a slow
+--o tocarlo en reversa sólo algunas veces
+d1 $ sometimes rev $ sound "[[bd sn] cp]"
+
+--lo podemos revertir cada 5 ciclos
+d2 $ slow 1 $ every 5 (rev) $ sound "numbers numbers:1 numbers:2"
+
+--Podemos acelerar y desacelerar un patrón así:
+d1 $ slow 2 $ sound "[[bd sn] cp]"
+
+d1  $ slow 0.5 $ sound "[[bd sn] cp]"
+
+d2 $ sound "alphabet"
+
+d1 $ density 2 $ sound "[[bd sn] cp]" --density 2 is the same as slow 0.5
+
+d1 $ every 4 (slow 0.5) $ every 3 (slow 2) $ sound "[[bd sn] cp]"
+
+hush
+
+d1  $ sometimes (jux (iter 8)) $ sound "[808, bd*2]"
+
+--Podemos juxtaponer un patrón con su propia versión en reversa así:
+d1  $ sound "bd hh arpy:2 metal" --la versión en reversa sonará en el canal derecho
+
+d1 $ slow 2 $ jux (palindrome) $ sound "numbers:1 numbers:2 numbers:3 numbers:4"
+
+--Podemos "romper" un patrón así:
+d1 $ brak $ sound "[[bd sn] cp]" --it makes a pattern sound a bit like a breakbeat.
+
+--O romperlo sólo de vez en cuando:
+d1 $ sometimes brak $ sound "[bd sn] [sn:2 hh*2]"
+
+--Podemos hacer iteraciones
+d1 $ slow 2 $ sound "numbers:1 numbers:2 numbers:3 numbers:4"
+
+d1 $ slow 2 $ jux (iter 4) $ sound "[bottle, numbers:1 numbers:2 numbers:3 numbers:4]"
+    # gain "1.4"
+
+cps 1
+
+hush
+
+
+d1 $ slow 4 $ jux (iter 4)  $ sound "alphabet alphabet:1 alphabet:2 alphabet:3"
+
+--Y juxtaponer esa iteración! :O
+d1 $ jux (iter 4) $ sound "numbers:1 numbers:2 numbers:3 numbers:4"
+
+--exploren un rato con los samples que quieran (vean su folder de samples de tidal)
+
+
+
+
+--Podemos hacer palíndromos
+d1 $ jux (iter 4) $ sometimes brak $ sometimes palindrome $ sound "newnotes:2 newnotes:3 newnotes:4 newnotes:5"
+  # gain "1.5"
+  # speed "0.125 -0.25 0.125 2"
+  # vowels "a"
+
+
+d1 $ jux (iter 4) $ sometimes brak $ sometimes palindrome $ sound "newnotes*4"
+    # gain "1.5"
+    # speed "0.125 1 0.125"
+
+  hush
+
+--Podemos cortar los samples con chop:
+---síntesis granular con striate
+
+d1 $ sometimes (striate 1) $ sound "newnotes:2"
+  # gain "1.5"
+  # speed "1"
+
+
+--podemos estriar los samples! es un granulador muy útil que divide los samples y mezcla los trozos:
+d1 $ every 1 (striate 20) $ sound "numbers alphabet:1"
+
+--gap es otro tipo de granulador que divide el sample y calla algunos pedazos:
+d1  $ sometimes  (gap 8) $ sound "metal"
+  # gain "1.5"
+  # speed "0.5"
+
+hush
+
+d1 $ sound "bd hh cp"
+
+--foldEvery transforma un patrón con una función pero sólo por cierto número de repeticiones. Es como encadenar varias funciones:
+
+d1 $ foldEvery [3, 4, 5] (slow 0.5) $ sound "newnotes:2 newnotes:3 newnotes:4"
+
+$ foldEvery [3, 4, 5] (slow 0.5) $
+
+every 3 () every 4 ()
+
+hush
+
+-- Eso es lo mismo que:
+d1 $ every 3 (density 2) $ every 4 (density 2) $ every 5 (density 2) $ sound "newnotes:2 newnotes:3 newnotes:4"
+
+--Con slowspread aplicamos estas transformaciones una a la vez en cada ciclo:
+
+d1 $ slow 4 $ slowspread (chop) [3, 10, 20, 4, 2] $ sound "newnotes:2 newnotes:3 newnotes:4"
+  # gain "1.3"
+
+hush
+
+d1 $ sometimes rev $ jux (iter 4) $ loopAt 800 $ chop 2400 $ sound "future hh*3 bd"
+  # gain "1.9"
+
+hush
+
+d1 $ slowspread (striate) [2, 10, 2, 4] $ sound "newnotes:2"
+
+--Y si hacemos un palíndromo de esto?
+d1 $ palindrome $ slowspread (chop) [1, 10, 2, 4] $ sound "newnotes:2 newnotes:3 newnotes:4"
+
+--y si se juxtapone el palíndromo?
+d1 $ jux (palindrome) $ sound "blip*2 tink:2*2 notes:3*2"
+
+d1 $ jux (palindrome) $ slowspread (chop) [15, 10, 2, 4] $ sound "bass:3 bass:1 bass:8"
+
+hush
+
+--slowcat encadena una lista de patrones:
+d1 $ slowcat [sound "bd sn", sound "metal jvbass"]
+  # gain "1"
+
+--randcat es parecido a slowcat, pero en vez de tocar los patrones en orden, los selecciona aleatoriamente.
+d1 $ randcat [sound "newnotes*2", sound "jvbass*3", sound "drum", sound "hh"]
+  # gain "1.5"
+
+  hush
+
+--Con stack podemos agrupar varios patrones en un sólo stream:
+
+d1 $ sound "newnotes*2 newnotes:5*3"
+
+d4 $ sound "jvbass"
+
+d1 $ sound "808*2"
+
+d1 $ stack [
+    sound "newnotes*2 newnotes:5*3 newnotes:4"
+    # speed "2",
+    sometimes (striate 5) $ sound "jvbass*4",
+    sometimes brak $ sound "808*2",
+     sound "metal*2",
+     sound "bd"]
+    # gain "1"
+    # vowel "o"
+
+    d1 silence
+
+
+    hush
+
+d1 $ sometimes (e 3 8) $ sound "h1 h2 h4*4"
+
+]
+
+
+
+
+
+d1 $ every 4 (density 2) $ stack [sometimes (rev) $ sound "bd*2 sn",
+            sometimes (brak) $ sound "numbers:3*3",
+            jux (iter 8) $ sound "newnotes:5 newnotes:2*3"
+            # vowel "u",
+            every 5 (striate 24) $ sound "bottle*5",
+            sound "amencutup*6"
+            # gain "2"]
+            # gain "1"
+            # cutoff (slow 12 $ scale 1000 13000 sine1)
+
+
+d1 $ sound "h1"
+
+hush
+
+
+
+
+            d2 $ stack [sometimes (rev) $ sound "bd*2 bass",
+                        sometimes (brak) $ sound "numbers:2*2",
+                        jux (iter 4) $ sound "newnotes*3"
+                        # vowel "o",
+                        every 5 (striate 24) $ sound "bottle*2"
+                        # gain "2"]
+
+
+
+
+d1 $ brak $ stack [ sound "newnotes*8"
+             # speed "2 1 3 0.5 0.25 7 1.3 1.378"
+             # vowel "a i p o u p e a",
+            sound "bass*3"
+            # speed "4 6 0.5"
+            # vowel "a i p",
+            sound "bd*3"
+            # speed "4 8"]
+
+            hush
+
+
+
+d2 $ sometimes brak $ stack  [ jux (iter 4) $ sound "arpy bass",
+            chop 20 $ sound "bass*2",
+            striate 20 $ sound "newnotes numbers"]
+
+d1 $ sound "newnotes"
+
+d2 silence
+
+d3 $ sound "bd"
+
+d1 silence
+
+hush
+
+
+
+----EFECTOS!!!
+---Podemos crear diferentes efectos sonoros para nuestros samples y synths:
+--gain es un patrón de números para el volumen
+d1 $ sound "tok*3"
+    # gain "2"
+    # cutoff "1200"
+
+--cutoff es un filtro pasa bajas. Le damos la frecuencia de corte en Hertz.
+d1 $ sound "jvbass*4"
+   # cutoff "1000"
+
+--Podemos automatizar cambios en los efectos con funciones contínuas como sine1
+d1 $ sound "blip*4"
+     # cutoff (slow 1 $ scale 200 15000 sine1)
+     # gain "2"
+
+d1 $ sound "tok*12"
+     # gain (slow 2 $ scale 0.1 2 sine1)
+
+hush
+
+--Tenemos un delay:
+d1 $ sound "blip*2"
+     # delay "0.5" --this is the volume of the delay
+     # delaytime "0.78" -- this is the length of the delay in seconds
+     # delayfeedback "0.6" --amount of delay feeding back to itself
+
+hush
+
+--Podemos acelerar y desacelerar los samples:
+d1 $ slow 2 $ sound "newnotes*4"
+    # gain "2"
+    # accelerate "3 0"
+    # pan "0 1"
+
+--Podemos panearlos:
+d1 $ sound "blip*4"
+      # pan "0 1"
+
+--Tenemos filtros de formantes:
+d1 $ sound "jvbass*18"
+      # vowel "u p i e o"
+      # gain "2"
+
+--Un poquito de reverb:
+d1 $ sound "hh cp"
+   # room "0.5"
+   # size "0.3"
+
+   hush
+
+--TidalCycles es mantenido y expandido por una comunidad muy activa en internet. Por favor no duden en contactar a la comunidad en caso de que tengan dudas, problemas o sugerencias!
+
+--en tidalcycles.org encontrarán la documentación de TidalCycles en inglés. Si necesitan ayuda en español escríbanme a tiemposdelruido@gmail.com
+
+--el canal de youtube de tidal cycles tiene excelentes tutoriales especialmente por Mike Hodnick
+
+--Únanse a la plática en lurk: https://talk.lurk.org/channel/algorave
+
+--gracias y que se diviertan con tidal!
+
+<3
+
+Alexandra

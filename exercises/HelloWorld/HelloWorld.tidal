@@ -1,0 +1,47 @@
+
+d2 silence
+hush
+
+
+d1 $ sound "bd:4 sd:3"
+d2 $ sound "808hc:2*4"
+
+
+cps 1
+-- Darkness .. imprissoning me .
+d2 $ sound "bd*6 sd"
+d4 $ sound "[dr:7]*7 [dr:7,sd]"
+
+d4 silence
+
+hush
+-- The clap marks the beat for understanding groups
+-- So, everytime a cycle ends the clap sounds for reference
+d2 $ sound "dr"
+
+-- here a cycle is divided in 2. The first half plays bd then the second half contains two sd
+d1 $ sound "bd [sd sd]"
+d1 silence
+d1 $ sound "bd [sd sd sd]"
+d1 $ sound "bd [sd sd sd sd sd sd]"
+d1 $ sound "[bd bd] [sd sd sd sd]"
+d1 $ sound "[bd bd bd] [sd sd]"
+
+
+
+
+
+
+
+d1 silence
+
+
+hush
+-- d1 $ sound "[numbers:1, ~ numbers:2, numbers:5 [numbers:6,~ ~ ~ diphone*2] numbers:4]" --Los paréntesis cuadrados agrupan.
+d1 $ sound "[~ ~ ~ numbers:1  numbers:2]" --Los paréntesis cuadrados agrupan.
+-- Feels like an electronig galloping.
+-- FUTURE COWBOY - March 4 2018
+-- d1 $ sound "bd sd:3"
+-- d2 $ sound "bass3:1"
+-- d3 $ sound "bass3:4*3"
+-- $ d4 $ sound "[bass3:1 bass3:4]"
