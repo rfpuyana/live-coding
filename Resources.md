@@ -9,7 +9,6 @@ NIME - New Interfaces for Music and Expression - http://www.nime.org/ - Conferen
 
 TOPLAP - http://toplap.org - Organization for Live Coders
 
-
 **LATAM**
 ------------------------------------------------------------------------
 Esteban Betancurt ( Algoritmo) Medellín
@@ -19,3 +18,5 @@ RGGTRN - Mexican Band working on Sonidera Music) - https://rggtrn.github.io/
 ------------------------------------------------------------------------
 Live Coders Chat
 https://talk.lurk.org/home
+**RESOURCES**
+https://github.com/toplap/awesome-livecoding
