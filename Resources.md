@@ -20,4 +20,5 @@ Live Coders Chat
 https://talk.lurk.org/home
 
 **RESOURCES**
+------------------------------------------------------------------------
 https://github.com/toplap/awesome-livecoding
