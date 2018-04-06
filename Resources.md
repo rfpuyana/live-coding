@@ -18,5 +18,6 @@ RGGTRN - Mexican Band working on Sonidera Music) - https://rggtrn.github.io/
 ------------------------------------------------------------------------
 Live Coders Chat
 https://talk.lurk.org/home
+
 **RESOURCES**
 https://github.com/toplap/awesome-livecoding
